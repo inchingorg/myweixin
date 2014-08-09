@@ -1,10 +1,12 @@
+/*jslint node: true, nomen: true, unparam: true, todo: true */
+'use strict';
+
 var express = require('express');
 var path = require('path');
 var favicon = require('static-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var weixin = require('weixin-api');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -24,6 +26,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/users', users);
+
+app.use(express.query()); // Or app.use(express.query());
+
+require('./myweixin').handleApp(app);
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -55,6 +61,5 @@ app.use(function(err, req, res, next) {
         error: {}
     });
 });
-
 
 module.exports = app;
